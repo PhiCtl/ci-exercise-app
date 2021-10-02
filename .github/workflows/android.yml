@@ -1,0 +1,23 @@
+# We can choose any
+name: Android Workflow
+
+# List of events triggering the action
+on: [push, pull_request]
+
+# List of jobs 
+jobs:
+  # Only one called test
+  test:
+    runs-on: macos-latest # Base container to use, macos enables hardware acc
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2 # clones repo and sets current working repo in it
+
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
+    - name: run tests
+      uses: reactivecircus/android-emulator-runner@v2 # sets up emulator and executes a script
+      with:
+        api-level: 29
+        script: ./gradlew connectedCheck
